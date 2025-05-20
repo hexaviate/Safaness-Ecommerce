@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SubCategory extends Model
 {
+    protected $guarded = [];
+
     /**
      * Get all of the product for the SubCategory
      *

@@ -127,4 +127,42 @@ class CategoryController extends Controller
             ], 403);
         }
     }
+
+
+    public function deleteCategory($id)
+    {
+
+
+        $user = auth('sanctum')->user();
+        if($user == null){
+            return response()->json([
+                'status' => 'forbidden',
+                'message' => "You're not an administrator"
+            ], 403);
+        }
+
+        if($user->getTable() == 'users')
+        {
+
+            $data = Category::find($id);
+            if(!$data){
+                return response()->json([
+                    'status' => "not-found",
+                    'message' => "Category not found"
+                ], 404);
+            } else {
+                $data->delete();
+
+                return response()->json([],204);
+            }
+
+        } else{
+            return response()->json([
+                'status' => 'forbidden',
+                'message' => "You're not an administrator"
+            ], 403);
+        }
+
+
+    }
 }
