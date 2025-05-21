@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\AuthAdminController;
 use App\Http\Controllers\Api\Auth\AuthUserController;
 use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SubCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,8 @@ Route::get('/admin/category', [CategoryController::class, 'listCategory']);
 Route::put('/admin/category/{id}', [CategoryController::class, 'updateCategory']);
 Route::delete('/admin/category/{id}', [CategoryController::class, 'deleteCategory']);
 
-//Sub Category
+//Sub Category and Product
 Route::prefix('admin')->group(function () {
     Route::apiResource('subCategory', SubCategoryController::class);
+    Route::apiResource('product', ProductController::class);
 });
