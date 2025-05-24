@@ -3,9 +3,11 @@
 use App\Http\Controllers\Api\Auth\AuthAdminController;
 use App\Http\Controllers\Api\Auth\AuthUserController;
 use App\Http\Controllers\Api\BuyerController;
+use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SubCategoryController;
+use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +38,6 @@ Route::delete('/admin/category/{id}', [CategoryController::class, 'deleteCategor
 Route::prefix('admin')->group(function () {
     Route::apiResource('subCategory', SubCategoryController::class);
     Route::apiResource('product', ProductController::class);
+    Route::apiResource('cart', CartController::class);
+    Route::apiResource('transaction', TransactionController::class);
 });

@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Cart extends Model
 {
 
+
+    protected $guarded = [];
+
     /**
      * Get all of the  for the Cart
      *

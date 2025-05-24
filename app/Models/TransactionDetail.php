@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TransactionDetail extends Model
 {
+    protected $guarded = [];
+
     /**
      * Get the transaction that owns the TransactionDetail
      *

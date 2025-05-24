@@ -12,20 +12,19 @@ class CategoryController extends Controller
     public function createCategory(Request $request)
     {
         $user = auth('sanctum')->user();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
             ], 403);
         }
 
-        if($user->getTable() == 'users')
-        {
-            $validate = Validator::make($request->all(),[
+        if ($user->getTable() == 'users') {
+            $validate = Validator::make($request->all(), [
                 'name' => 'required|unique:categories'
             ]);
 
-            if($validate->fails()){
+            if ($validate->fails()) {
                 return response()->json([
                     'status' => 'invalid',
                     'message' => $validate->errors()
@@ -44,7 +43,7 @@ class CategoryController extends Controller
                 'message' => 'category created',
                 'data' => $data
             ], 200);
-        } else{
+        } else {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
@@ -52,24 +51,29 @@ class CategoryController extends Controller
         }
     }
 
-    public function listCategory()
+    public function listCategory(Request $request)
     {
         $user = auth('sanctum')->user();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
             ], 403);
         }
 
-        if($user->getTable() == 'users')
-        {
+        if ($user->getTable() == 'users') {
             $category = Category::select('id', 'name', 'slug')->get();
-            return response()->json([
-                "status" => "success",
-                "data" => $category
-            ], 200);
-        } else{
+
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    "status" => "success",
+                    "data" => $category
+                ], 200);
+            }
+
+            return view('admin.components.category', compact('category'));
+        } else {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
@@ -80,18 +84,17 @@ class CategoryController extends Controller
     public function updateCategory(Request $request, $id)
     {
         $user = auth('sanctum')->user();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
             ], 403);
         }
 
-        if($user->getTable() == 'users')
-        {
+        if ($user->getTable() == 'users') {
 
             $target = Category::find($id);
-            if($target == null){
+            if ($target == null) {
                 return response()->json([
                     'status' => "not-found",
                     'message' => "Category not found"
@@ -102,7 +105,7 @@ class CategoryController extends Controller
                 'name' => 'sometimes|required|unique:categories'
             ]);
 
-            if($validate->fails()){
+            if ($validate->fails()) {
                 return response()->json([
                     'status' => 'invalid',
                     'message' => $validate->errors()
@@ -120,7 +123,7 @@ class CategoryController extends Controller
             ], 201);
 
 
-        } else{
+        } else {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
@@ -134,18 +137,17 @@ class CategoryController extends Controller
 
 
         $user = auth('sanctum')->user();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
             ], 403);
         }
 
-        if($user->getTable() == 'users')
-        {
+        if ($user->getTable() == 'users') {
 
             $data = Category::find($id);
-            if(!$data){
+            if (!$data) {
                 return response()->json([
                     'status' => "not-found",
                     'message' => "Category not found"
@@ -153,10 +155,10 @@ class CategoryController extends Controller
             } else {
                 $data->delete();
 
-                return response()->json([],204);
+                return response()->json([], 204);
             }
 
-        } else{
+        } else {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
