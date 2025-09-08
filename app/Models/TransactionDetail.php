@@ -16,7 +16,7 @@ class TransactionDetail extends Model
      */
     public function transaction(): BelongsTo
     {
-        return $this->belongsTo(Transaction::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(Transaction::class);
     }
 
     /**
@@ -26,6 +26,6 @@ class TransactionDetail extends Model
      */
     public function cart(): BelongsTo
     {
-        return $this->belongsTo(Cart::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(Cart::class);
     }
 }

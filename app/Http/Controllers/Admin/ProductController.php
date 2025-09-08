@@ -35,11 +35,11 @@ class ProductController
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'product_img' => 'required',
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'stock' => 'required|integer',
+            'weight' => 'required|integer',
             'sub_categories_id' => 'required|exists:sub_categories,id'
         ]);
 
@@ -47,17 +47,13 @@ class ProductController
             return redirect()->route('product.create')->withErrors($validate)->withInput();
         }
 
-        $imageName = time() . '.' . $request->product_img->extension();
-
-        $request->product_img->move(public_path('images'), $imageName);
-
         Product::create([
             "name" => $request->name,
             "slug" => Str::of($request->name)->slug('-'),
-            "product_img" => $imageName,
             "description" => $request->description,
             "price" => $request->price,
             "stock" => $request->stock,
+            "weight" => $request->weight,
             "sub_categories_id" => $request->sub_categories_id,
         ]);
 
@@ -100,7 +96,7 @@ class ProductController
         ]);
 
         if ($validate->fails()) {
-            return redirect()->route('product.create')->withErrors($validate)->withInput();
+            return redirect()->route('product.edit', $target)->withErrors($validate)->withInput();
         }
 
         $imageName = time() . '.' . $request->product_img->extension();

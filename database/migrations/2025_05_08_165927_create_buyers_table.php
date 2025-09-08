@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('buyers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('handphone_number');
+            $table->string('username');
+            $table->string('phone');
             $table->longText('address');
+            $table->string('zip_code');
             $table->timestamps();
         });
     }

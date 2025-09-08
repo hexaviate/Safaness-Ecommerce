@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('buyer_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('qty');
+            $table->integer('product_weight');
             $table->boolean('status');
             $table->decimal('price', 10, 2 );
             $table->decimal('price_total', 10, 2 );

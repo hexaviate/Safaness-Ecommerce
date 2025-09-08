@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\Auth\AuthAdminController;
 use App\Http\Controllers\Api\Auth\AuthUserController;
 use App\Http\Controllers\Api\BuyerController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\PageCartContorller;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProductImageController;
+use App\Http\Controllers\Api\RajaOngkirController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
@@ -40,4 +44,10 @@ Route::prefix('admin')->group(function () {
     Route::apiResource('product', ProductController::class);
     Route::apiResource('cart', CartController::class);
     Route::apiResource('transaction', TransactionController::class);
+    Route::apiResource('productImages', ProductImageController::class);
 });
+
+Route::get('/search-destination', [RajaOngkirController::class,'searchDestination'])->name('search-destination');
+Route::get('/infoCart', [PageCartContorller::class,'infoCart'])->name('infoCart');
+Route::get('/transactionInfo', [PageCartContorller::class,'transactionInfo'])->name('transactionInfo');
+Route::get('/accountDetail', [AccountController::class,'accountDetail'])->name('accountDetail');

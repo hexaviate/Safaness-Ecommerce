@@ -38,6 +38,16 @@
     <div class="row g-0">
         <div class="col-md-4 border-end">
             <img src="{{ asset('images/'.$item->product_img)}}" class="img-fluid" alt="...">
+            <div class="row mb-3 row-cols-auto g-2 justify-content-center mt-3">
+                <div class="col"><img src="assets/images/products/12.png" width="70"
+                        class="border rounded cursor-pointer" alt=""></div>
+                <div class="col"><img src="assets/images/products/11.png" width="70"
+                        class="border rounded cursor-pointer" alt=""></div>
+                <div class="col"><img src="assets/images/products/14.png" width="70"
+                        class="border rounded cursor-pointer" alt=""></div>
+                <div class="col"><img src="assets/images/products/15.png" width="70"
+                        class="border rounded cursor-pointer" alt=""></div>
+            </div>
         </div>
         <div class="col-md-8">
             <div class="card-body">
@@ -112,10 +122,10 @@
         <div class="tab-content pt-3">
             <div class="tab-pane fade show active" id="primaryhome" role="tabpanel">
                 <p>{{$item->description}}</p>
-                    </div>
-                </div>
             </div>
-            @endforeach
         </div>
+    </div>
+    @endforeach
+</div>
 
 @endsection

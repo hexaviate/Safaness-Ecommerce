@@ -12,12 +12,12 @@ class AuthUserController
     public function signIn(Request $request)
     {
         $credential = [
-            'name' => $request->name,
+            'username' => $request->username,
             'password' => $request->password
         ];
 
         if(auth('buyer')->attempt($credential)){
-            $buyer = Buyer::where('name', $request->name)->first();
+            $buyer = Buyer::where('username', $request->username)->first();
             $token = $buyer->createToken('auth_login')->plainTextToken;
 
             return response()->json([
@@ -35,10 +35,12 @@ class AuthUserController
     public function signUp(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|unique:buyers|max:40',
+            'username' => 'required|unique:buyers|max:40',
+            'email' => 'required|unique:buyers',
             'password' => 'required|min:5',
-            'phone' => 'required|integer',
-            'address' => 'required'
+            'phone' => 'required',
+            'address' => 'required',
+            'zip_code' => 'required'
         ]);
 
         if($validate->fails()){
@@ -49,16 +51,18 @@ class AuthUserController
         }
 
         $buyer = Buyer::create([
-            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
             'password' => $request->password,
             'phone' => $request->phone,
-            'address' => $request->address
+            'address' => $request->address,
+            'zip_code' => $request->zip_code
         ]);
 
         $token = $buyer->createToken('auth_login')->plainTextToken;
 
         return response()->json([
-            'message' => 'success',
+            'status' => 'success',
             'token' => $token
         ],201);
     }

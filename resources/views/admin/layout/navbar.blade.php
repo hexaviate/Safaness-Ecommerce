@@ -28,4 +28,18 @@
             <div class="menu-title">Product</div>
         </a>
     </li>
+    <li>
+        <a  href="{{ route('productImage.index')}}">
+            <div class="parent-icon"><i class="bx bx-store"></i>
+            </div>
+            <div class="menu-title">Product Images</div>
+        </a>
+    </li>
+    <li>
+        <a  href="{{ route('transaction.index')}}">
+            <div class="parent-icon"><i class="bx bx-detail"></i>
+            </div>
+            <div class="menu-title">Transaction</div>
+        </a>
+    </li>
 </ul>

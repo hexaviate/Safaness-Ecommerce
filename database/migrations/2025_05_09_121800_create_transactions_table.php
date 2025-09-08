@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('buyer_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['failed', 'pending', 'success']);
             $table->string('information');
+            $table->integer('shipping_cost');
             $table->decimal('payment_total', 10, 2)->nullable();
             $table->timestamps();
         });

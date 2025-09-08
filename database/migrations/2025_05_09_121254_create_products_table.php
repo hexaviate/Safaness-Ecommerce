@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->longText('description');
+            $table->integer('weight');
             $table->decimal('price', 10, 2);
             $table->integer('stock');
             $table->foreignId('sub_categories_id')->constrained()->onDelete('cascade');

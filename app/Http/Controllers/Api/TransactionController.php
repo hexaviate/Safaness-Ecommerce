@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Models\Cart;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class TransactionController
@@ -53,11 +55,61 @@ class TransactionController
                     'message' => $validate->errors()
                 ], 400);
             }
+            $zipcode = $user->zip_code;
+            // dd($zipcode);
+
             $cart = Cart::where('buyer_id', $user->id)->where('status', 1)->where('checkout', 'belum')->get();
+            $total_weight = $cart->sum('product_weight');
+
+            if ($cart->isEmpty()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Your cart is empty. Please add items before checking out.'
+                ], 400);
+            }
+
+            // $response = Http::withHeaders([
+            //     'key' => config('rajaongkir.api_key')
+            // ])->get('https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
+                //             "origin" => '59154',
+            //             "destination" => $zipcode,
+            //             "offset" => 0
+            //         ]);
+
+            // dd($response);
+
+            $client = new Client();
+            $res = $client->request('POST', 'https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
+                'headers' => [
+                    "key" => '8b46a5daf002a832393957ef35b2cfdc'
+                ],
+                'query' => [
+                    'origin' => '59154',
+                    'destination' => $zipcode,
+                    'weight' => $total_weight,
+                    'courier' => 'jnt'
+                ],
+            ]);
+
+
+            $result = json_decode($res->getbody(), true);
+            $ongkir = $result['data']['0']['cost'];
+            $total = $cart->sum('price_total');
+
+            // dd($res->getBody()->getContents()->data[0]->cost);
+
+            //ambil cost ongkir
+            // print_r($result['data'][0]['cost']);
+            // foreach ($result as $item) {
+            //     echo($item[0]);
+            // }
+
 
 
             $data = $validate->validated();
-            $data['payment_total'] = $cart->sum('price_total');
+            $data['subtotal'] = $total;
+            $data['shipping_cost'] = $ongkir;
+            $data['payment_total'] = $total + $ongkir;
             $data['buyer_id'] = $user->id;
             $transaction = Transaction::create($data);
             //* end create Transaksi

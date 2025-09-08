@@ -41,6 +41,16 @@ class Product extends Model
     }
 
     /**
+     * Get all of the product_image for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function product_image(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    /**
      * Get the subCategory that owns the Product
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -49,4 +59,6 @@ class Product extends Model
     {
         return $this->belongsTo(SubCategory::class, 'sub_categories_id');
     }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,14 +17,13 @@ class CartResource extends JsonResource
     {
         return
         [
-            'id' => $this->id,
-            'buyer' => $this->buyer?->name,
-            'product' => $this->product?->name,
-            'qty' => $this->qty,
-            'status' => $this->status,
-            'price' => $this->price,
-            'price_total' => $this->price_total,
-            'checkout' => $this->checkout
+                    "id" => $this->id,
+                    "product" => $this->product->name,
+                    "qty" => $this->qty,
+                    "price" => $this->price,
+                    "price_total" => $this->price_total,
+                    "product_weight" => $this->product_weight,
+                    "image" => ProductImage::where('product_id', $this->product_id)->first()->image
         ];
     }
 }

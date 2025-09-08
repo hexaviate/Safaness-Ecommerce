@@ -25,10 +25,18 @@ class CartController
         }
 
         if ($user->getTable() == 'buyers') {
-            $cart = Cart::with('product', 'buyer')->get();
+            // $cart = Cart::with('product', 'buyer')->where('buyer_id', $user->id)->get();
+            $cart = Cart::with('product', 'buyer')->where('buyer_id', $user->id)->where('status', 1)->where('checkout', 'belum')->get();
+            $count = Cart::with('product', 'buyer')->where('buyer_id', $user->id)->where('status', 1)->where('checkout', 'belum')->count();
+            $total = $cart->sum('price_total');
+
+
             $data = CartResource::collection($cart);
+
             return response()->json([
                 "status" => "success",
+                "count" => $count,
+                "total" => $total,
                 "data" => $data
             ], 200);
         } else {
@@ -77,9 +85,11 @@ class CartController
 
 
             $price = Product::where('id', $request->product_id)->first()->price;
+            $weight = Product::where('id', $request->product_id)->first()->weight;
             $qty = $request->qty;
 
             $total = $price * $qty;
+            $total_weight = $weight * $qty;
 
 
             $user = auth('sanctum')->user()->id;
@@ -87,6 +97,7 @@ class CartController
             $data['buyer_id'] = $user;
             $data['price'] = $price;
             $data['price_total'] = $total;
+            $data['product_weight'] = $total_weight;
             $create = Cart::create($data);
 
             return response()->json([
@@ -108,7 +119,7 @@ class CartController
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -134,8 +145,8 @@ class CartController
 
         if ($user->getTable() == 'buyers') {
 
-            $data = Cart::find($id);
-            if (!$data) {
+            $cart = Cart::find($id);
+            if (!$cart) {
                 return response()->json([
                     'status' => "not-found",
                     'message' => "Cart not found"
@@ -144,7 +155,6 @@ class CartController
 
                 $validate = Validator::make($request->all(), [
                     "qty" => "required|numeric",
-                    "status" => "required|boolean"
                 ]);
 
                 if ($validate->fails()) {
@@ -154,7 +164,25 @@ class CartController
                     ], 400);
                 }
 
-                $data->update($validate->validated());
+                $price = Product::where('id', $cart->product_id)->first()->price;
+                $weight = Product::where('id', $cart->product_id)->first()->weight;
+                $qty = $request->qty;
+
+                $total = $price * $qty;
+                $total_weight = $weight * $qty;
+
+
+                $user = auth('sanctum')->user()->id;
+                $data = $validate->validated();
+                $data['buyer_id'] = $user;
+                $data['price'] = $price;
+                $data['price_total'] = $total;
+                $data['product_weight'] = $total_weight;
+
+
+                $cart->update($data);
+
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'data updated',
@@ -166,7 +194,7 @@ class CartController
         } else {
             return response()->json([
                 'status' => 'forbidden',
-                'message' => "You're not an administrator"
+                'message' => "You're not an buyer"
             ], 403);
         }
     }

@@ -38,9 +38,7 @@
                                     rows="3"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="inputProductDescription" class="form-label">Product Images</label>
-                                <input id="image-uploadify" type="file" name="product_img"
-                                    accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf">
+                                <label for="" class="form-label"></label>
                             </div>
                         </div>
                     </div>
@@ -55,6 +53,10 @@
                                 <div class="col-md-6">
                                     <label for="stock" class="form-label">Stock</label>
                                     <input type="number" id="stock" class="form-control" name="stock" placeholder="00">
+                                </div>
+                                <div class="col-12">
+                                    <label for="weight" class="form-label">Weight (gram)</label>
+                                    <input type="number" id="weight" class="form-control" name="weight" placeholder="00">
                                 </div>
                                 <div class="col-12">
                                     <label for="inputProductType" class="form-label">Product Type</label>
