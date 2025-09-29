@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Web;
 
 use App\Models\Buyer;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class AuthUserController
+class AuthController
 {
-    public function signIn(Request $request)
+    public function signInBuyer(Request $request)
     {
         $credential = [
             'username' => $request->username,
@@ -18,21 +18,14 @@ class AuthUserController
 
         if (auth('buyer')->attempt($credential)) {
             $buyer = Buyer::where('username', $request->username)->first();
-            $token = $buyer->createToken('auth_login')->plainTextToken;
 
-            return response()->json([
-                'status' => 'success',
-                'token' => $token
-            ], 200);
+            return redirect()->route('')->with('success', 'anda berhasil login');
         } else {
-            return response()->json([
-                "status" => 'invalid',
-                "message" => 'Invalid name or password'
-            ], 401);
+            return back();
         }
     }
 
-    public function signUp(Request $request)
+    public function signUpBuyer(Request $request)
     {
         $validate = Validator::make($request->all(), [
             'username' => 'required|unique:buyers|max:40',
@@ -44,10 +37,7 @@ class AuthUserController
         ]);
 
         if ($validate->fails()) {
-            return response()->json([
-                'status' => 'invalid',
-                'message' => $validate->errors()
-            ], 400);
+            return redirect()->route('')->withErrors($validate)->withInput();
         }
 
         $buyer = Buyer::create([
@@ -59,11 +49,11 @@ class AuthUserController
             'zip_code' => $request->zip_code
         ]);
 
-        $token = $buyer->createToken('auth_login')->plainTextToken;
 
-        return response()->json([
-            'status' => 'success',
-            'token' => $token
-        ], 201);
+        return redirect()->route('')->with('success', 'anda berhasil login');
     }
+
+    //! auth admin belum ya
 }
+
+
