@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-Route::get('/dashboard', function() {
+Route::get('/admin', function() {
     return view('admin.admin');
 })->name('dashboard');
 
@@ -19,4 +19,14 @@ Route::resource('subCategory', SubCategoryController::class);
 Route::resource('product', ProductController::class);
 Route::resource('productImage', ProductImageController::class);
 Route::resource('transaction', TransactionController::class);
+
+Route::get('login', function () {
+    return view('user.auth.login');
+})->name('login');
+
+Route::get('register', function () {
+    return view('user.auth.register');
+})->name('register');
+
+
 
