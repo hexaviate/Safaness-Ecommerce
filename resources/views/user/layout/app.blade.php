@@ -10,9 +10,9 @@
         </div>
 
         <!-- Navigation -->
-        <div class="header-nav">
+        {{-- <div class="header-nav">
             @include('user.layout.partials.nav')
-        </div>
+        </div> --}}
 
         <!-- Mobile Search Form -->
         <div class="collapse" id="mobileSearch">

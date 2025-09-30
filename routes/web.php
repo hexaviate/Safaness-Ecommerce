@@ -29,4 +29,8 @@ Route::get('register', function () {
 })->name('register');
 
 
+Route::get('', function () {
+    return view('user.content.card');
+})->name('index');
+
 

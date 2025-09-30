@@ -41,6 +41,9 @@
                                     required="" autocomplete="current-password">
                             </div>
 
+                            <div class="d-grid gap-2 mb-4">
+                                <button type="submit" class="btn btn-primary">Sign in</button>
+                            </div>
 
                             <div class="signup-link text-center">
                                 <span>Don't have an account?</span>
