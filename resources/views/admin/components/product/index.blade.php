@@ -38,7 +38,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Image</th>
+                        {{-- <th>Image</th> --}}
                         <th>Product Name</th>
                         <th>Slug</th>
                         <th>Sub Category</th>
@@ -49,7 +49,7 @@
                     @foreach ($data as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td><img src="{{ asset('images/'.$item->product_img)}}" class="img-fluid"></td>
+                        {{-- <td><img src="{{ asset('images/'.$item->product_img)}}" class="img-fluid"></td> --}}
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->slug }}</td>
                         <td>{{ $item->sub_category->name}}</td>
@@ -73,7 +73,7 @@
                 <tfoot>
                     <tr>
                         <th>No</th>
-                        <th>Image</th>
+                        {{-- <th>Image</th> --}}
                         <th>Product Name</th>
                         <th>Slug</th>
                         <th>Sub Category</th>
