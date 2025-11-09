@@ -25,7 +25,8 @@
                             <p>Welcome back! Please enter your details</p>
                         </div>
 
-                        <form>
+                        <form action="{{ route('prosesLogin') }}" method="POST">
+                            @csrf
                             <div class="mb-4">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" placeholder="Enter your email"

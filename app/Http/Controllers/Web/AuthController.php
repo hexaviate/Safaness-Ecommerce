@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController
 {
+
+    public function viewLogin()
+    {
+        return view('user.auth.login');
+    }
+
+    public function viewSignup()
+    {
+        return view('user.auth.register');
+    }
+
     public function signInBuyer(Request $request)
     {
         $credential = [

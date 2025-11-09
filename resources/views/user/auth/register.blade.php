@@ -29,8 +29,8 @@
                             <p>Sign up to start shopping and enjoy exclusive offers</p>
                         </div>
 
-                        <form action="#" method="POST">
-
+                        <form action="{{ route('prosesRegister') }}" method="POST">
+                            @csrf
                             <div class="form-grub mb-3">
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
