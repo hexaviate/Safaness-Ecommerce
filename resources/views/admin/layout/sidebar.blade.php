@@ -68,7 +68,7 @@
     <div class="navbar-vertical">
         <div class="px-4 py-5 d-flex justify-content-between align-items-center">
             <a href="{{ url('/') }}" class="navbar-brand">
-                <img src="{{ asset('images/safanes-logo.png') }}" alt="" />
+                <img src="{{ asset('images/safanes-logo.png') }}" alt="" width="180"/>
             </a>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
