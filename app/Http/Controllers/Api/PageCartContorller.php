@@ -18,6 +18,7 @@ class PageCartContorller
         $zipcode = $user->zip_code;
         $cart = Cart::where('buyer_id', $user->id)->where('status', 1)->where('checkout', 'belum')->get();
         $total_weight = $cart->sum('product_weight');
+        // dd($cart);
         $client = new Client();
         $res = $client->request('POST', 'https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
             'headers' => [
@@ -54,10 +55,11 @@ class PageCartContorller
 
     }
 
-    public function transactionInfo(){
+    public function transactionInfo()
+    {
         $user = auth('sanctum')->user();
 
-        $transaction = Transaction::with(['transactionDetail.cart'])->where('buyer_id', $user->id)->latest()->get();
+        $transaction = Transaction::with(['transactionDetail.cart'], 'courier')->where('buyer_id', $user->id)->latest()->get();
         $collection = TransactionResource::collection($transaction);
 
         return response()->json([

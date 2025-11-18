@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,8 +13,12 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('buyer_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['failed', 'pending', 'success']);
+            $table->enum('status', ['failed', 'pending', 'success', 'waiting'])->default('waiting');
             $table->string('information');
+            $table->string('payment_proof')->nullable();
+            $table->string('courier');
+            $table->string('waybill_number')->nullable();
+            $table->integer('subtotal');
             $table->integer('shipping_cost');
             $table->decimal('payment_total', 10, 2)->nullable();
             $table->timestamps();

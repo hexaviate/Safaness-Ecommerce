@@ -25,6 +25,7 @@ Route::post('admin/login', [AuthAdminController::class, 'signIn']);
 //?Buyer
 Route::post('buyer/register', [AuthUserController::class, 'signUp']);
 Route::post('buyer/login', [AuthUserController::class, 'signIn']);
+Route::post('buyer/logout', [AuthUserController::class, 'logout']);
 
 //CRUD
 //?Admin
@@ -47,7 +48,7 @@ Route::prefix('admin')->group(function () {
     Route::apiResource('productImages', ProductImageController::class);
 });
 
-Route::get('/search-destination', [RajaOngkirController::class,'searchDestination'])->name('search-destination');
-Route::get('/infoCart', [PageCartContorller::class,'infoCart'])->name('infoCart');
-Route::get('/transactionInfo', [PageCartContorller::class,'transactionInfo'])->name('transactionInfo');
-Route::get('/accountDetail', [AccountController::class,'accountDetail'])->name('accountDetail');
+Route::get('/search-destination', [RajaOngkirController::class, 'searchDestination'])->name('search-destination');
+Route::get('/infoCart', [PageCartContorller::class, 'infoCart'])->name('infoCart');
+Route::get('/transactionInfo', [PageCartContorller::class, 'transactionInfo'])->name('transactionInfo');
+Route::get('/accountDetail', [AccountController::class, 'accountDetail'])->name('accountDetail');

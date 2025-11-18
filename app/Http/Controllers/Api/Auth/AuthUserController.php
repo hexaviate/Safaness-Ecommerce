@@ -16,14 +16,14 @@ class AuthUserController
             'password' => $request->password
         ];
 
-        if(auth('buyer')->attempt($credential)){
+        if (auth('buyer')->attempt($credential)) {
             $buyer = Buyer::where('username', $request->username)->first();
             $token = $buyer->createToken('auth_login')->plainTextToken;
 
             return response()->json([
                 'status' => 'success',
                 'token' => $token
-            ],200);
+            ], 200);
         } else {
             return response()->json([
                 "status" => 'invalid',
@@ -43,7 +43,7 @@ class AuthUserController
             'zip_code' => 'required'
         ]);
 
-        if($validate->fails()){
+        if ($validate->fails()) {
             return response()->json([
                 'status' => 'invalid',
                 'message' => $validate->errors()
@@ -64,6 +64,23 @@ class AuthUserController
         return response()->json([
             'status' => 'success',
             'token' => $token
-        ],201);
+        ], 201);
+    }
+
+    public function logout()
+    {
+        $user = auth('sanctum')->user();
+
+        if (!$user) {
+            return response()->json([
+                "message" => 'Invalid token'
+            ], 401);
+        }
+
+        $user->currentAccessToken()->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logout success'
+        ], 200);
     }
 }

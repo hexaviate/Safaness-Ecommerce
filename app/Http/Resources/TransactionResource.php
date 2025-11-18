@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Courier;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,7 @@ class TransactionResource extends JsonResource
             "total" => $this->payment_total,
             "orderedAt" => $this->created_at,
             "transaction_details" => TransactionDetailResource::collection($this->transactionDetail),
+            "courier_info" => CourierResource::collection($this->courier),
         ];
     }
 }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,10 +16,10 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('qty');
             $table->integer('product_weight');
-            $table->boolean('status');
-            $table->decimal('price', 10, 2 );
-            $table->decimal('price_total', 10, 2 );
-            $table->enum('checkout', ['sudah', 'belum']);
+            $table->boolean('status')->default(1);
+            $table->decimal('price', 10, 2);
+            $table->decimal('price_total', 10, 2);
+            $table->enum('checkout', ['sudah', 'belum'])->default('belum');
             $table->timestamps();
         });
     }

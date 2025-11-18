@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Cart;
+use App\Models\Courier;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use GuzzleHttp\Client;
@@ -47,6 +48,7 @@ class TransactionController
             $validate = Validator::make($request->all(), [
                 "status" => "",
                 "information" => "",
+                // "courier" => "required",
             ]);
 
             if ($validate->fails()) {
@@ -71,7 +73,7 @@ class TransactionController
             // $response = Http::withHeaders([
             //     'key' => config('rajaongkir.api_key')
             // ])->get('https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
-                //             "origin" => '59154',
+            //             "origin" => '59154',
             //             "destination" => $zipcode,
             //             "offset" => 0
             //         ]);
@@ -112,6 +114,18 @@ class TransactionController
             $data['payment_total'] = $total + $ongkir;
             $data['buyer_id'] = $user->id;
             $transaction = Transaction::create($data);
+
+            $courier = [
+                "transaction_id" => $transaction->id,
+                "name" => $result['data']['0']['name'],
+                "service" => $result['data']['0']['service'],
+                "description" => $result['data']['0']['description'],
+                "cost" => $result['data']['0']['cost'],
+                "etd" => $result['data']['0']['etd'],
+            ];
+
+            $createCourier = Courier::create($courier);
+            // dd($createCourier);
             //* end create Transaksi
 
             //* Create Transaction Detail
@@ -150,7 +164,24 @@ class TransactionController
      */
     public function show(string $id)
     {
-        //
+        $user = auth('sanctum')->user();
+        if (!$user) {
+            return response()->json([
+                'status' => 'unauthenticated',
+                'message' => "You must be logged in"
+            ], 401);
+        }
+
+        if ($user->getTable() != "buyers") {
+            return response()->json([
+                'status' => 'unauthenticated',
+                'message' => "You must be buyer"
+            ], 401);
+        }
+
+        $data = Transaction::find($id);
+
+
     }
 
     /**
