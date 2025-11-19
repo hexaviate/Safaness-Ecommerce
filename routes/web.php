@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-Route::get('/dashboard', function() {
+Route::get('/dashboard', function () {
     return view('admin.components.dahboard.index');
 })->name('dashboard');
 
@@ -19,4 +19,6 @@ Route::resource('subCategory', SubCategoryController::class);
 Route::resource('product', ProductController::class);
 Route::resource('productImage', ProductImageController::class);
 Route::resource('transaction', TransactionController::class);
+
+Route::post('validatePayment/{id}', [TransactionController::class, 'validatePayment'])->name('validatePayment');
 

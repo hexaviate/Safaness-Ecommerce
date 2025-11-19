@@ -39,9 +39,10 @@ class TransactionController
      */
     public function show(string $id)
     {
-        $data = Transaction::where('id', $id)->get();
-        $detail = TransactionDetail::where('transaction_id', $id)->get();
-        return view('admin.components.transaction.show', compact('data', 'detail'));
+        $data = Transaction::with('buyer')->where('id', $id)->get();
+        // dd($data);
+        $details = TransactionDetail::where('transaction_id', $id)->get();
+        return view('admin.components.transaction.show', compact('data', 'details'));
     }
 
     /**
@@ -79,5 +80,27 @@ class TransactionController
     public function destroy(string $id)
     {
         //
+    }
+
+    public function validatePayment(string $id)
+    {
+        // $user = auth()->user();
+        // if (!$user) {
+        //     return redirect()->back()->with('error', 'anda harus login');
+        // }
+
+        $transaction = Transaction::find($id)->first();
+        // dd($transaction);
+
+        if ($transaction->status == "processing" || $transaction->status == "shipping" || $transaction->status == "success" || $transaction->status == "failed") {
+            return redirect()->back()->with('error', 'tidak bisa memvalidasi pembayaran');
+        }
+
+
+        $transaction->update([
+            "status" => "processing"
+        ]);
+
+        return redirect()->route('transaction.index')->with('success', 'berhasil validasi pembayaran');
     }
 }
