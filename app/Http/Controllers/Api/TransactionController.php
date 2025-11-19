@@ -10,6 +10,9 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\ImageManager;
 
 class TransactionController
 {
@@ -89,7 +92,7 @@ class TransactionController
                     'origin' => '59154',
                     'destination' => $zipcode,
                     'weight' => $total_weight,
-                    'courier' => 'jnt'
+                    'courier' => $request->courier
                 ],
             ]);
 
@@ -110,8 +113,10 @@ class TransactionController
 
             $data = $validate->validated();
             $data['subtotal'] = $total;
+            $data['courier'] = $request->courier;
+            $data['status'] = "waiting";
             $data['shipping_cost'] = $ongkir;
-            $data['payment_total'] = $total + $ongkir;
+            $data['payment_total'] = $total + $ongkir + 1000;
             $data['buyer_id'] = $user->id;
             $transaction = Transaction::create($data);
 
@@ -250,5 +255,48 @@ class TransactionController
     public function destroy(string $id)
     {
         //
+    }
+
+    public function submitProof(string $id, Request $request)
+    {
+        $user = auth('sanctum')->user();
+        if (!$user) {
+            return response()->json([
+                'status' => 'unauthenticated',
+                'message' => "You must be logged in"
+            ], 401);
+        }
+
+        if ($user->getTable() != "buyers") {
+            return response()->json([
+                'status' => 'unauthenticated',
+                'message' => "You must be buyer"
+            ], 401);
+        }
+
+        $transaction = Transaction::find($id);
+
+        if ($transaction->proof != null) {
+            return response()->json([
+                "status" => "failed",
+                "message" => "anda sudah mengupload bukti pembayaran"
+            ], 400);
+        }
+        //img interevention
+        $manager = ImageManager::withDriver(new Driver());
+        $imageName = time() . '.' . $request->proof->extension();
+
+        //read image
+        $image = $manager->read($request->file('proof'));
+        $image->encode(new AutoEncoder(quality: 50))->save(public_path('images/proof/' . $imageName));
+
+        $transaction->update([
+            "payment_proof" => $imageName
+        ]);
+
+        return response()->json([
+            "status" => "success",
+            "message" => "berhasil upload bukti pembayaran"
+        ], 200);
     }
 }

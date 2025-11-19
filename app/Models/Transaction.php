@@ -31,7 +31,7 @@ class Transaction extends Model
         return $this->belongsTo(Buyer::class);
     }
 
-    public function courier()
+    public function couriers()
     {
         return $this->hasMany(Courier::class);
     }

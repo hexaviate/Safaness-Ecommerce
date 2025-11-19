@@ -22,10 +22,11 @@ class TransactionResource extends JsonResource
             "information" => $this->information,
             "subtotal" => $this->subtotal,
             "ongkir" => $this->shipping_cost,
+            "biaya_layanan" => 1000,
             "total" => $this->payment_total,
             "orderedAt" => $this->created_at,
             "transaction_details" => TransactionDetailResource::collection($this->transactionDetail),
-            "courier_info" => CourierResource::collection($this->courier),
+            "courier_info" => CourierResource::collection($this->couriers),
         ];
     }
 }
