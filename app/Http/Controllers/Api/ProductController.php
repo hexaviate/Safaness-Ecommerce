@@ -17,12 +17,12 @@ class ProductController
      */
     public function index()
     {
-            $product = Product::with('sub_category')->get();
-            $data = ProductResource::collection($product);
-            return response()->json([
-                "status" => "success",
-                "data" => $data
-            ], 200);
+        $product = Product::with('sub_category')->get();
+        $data = ProductResource::collection($product);
+        return response()->json([
+            "status" => "success",
+            "data" => $data
+        ], 200);
     }
 
     /**
@@ -51,7 +51,7 @@ class ProductController
             $validate = Validator::make($request->all(), [
                 'name' => 'required',
                 'description' => 'required',
-                'price'=> 'required|decimal:2',
+                'price' => 'required|decimal:2',
                 'stock' => 'required|numeric',
                 'sub_categories_id' => 'required|exists:categories,id'
             ]);
@@ -89,7 +89,7 @@ class ProductController
         $img = ProductImageResource::collection($target);
 
         $data = [
-            "name"  => $product->name,
+            "name" => $product->name,
             "description" => $product->description,
             "price" => $product->price,
             "weight" => $product->weight,
@@ -138,7 +138,7 @@ class ProductController
             $validate = Validator::make($request->all(), [
                 'name' => 'required',
                 'description' => 'required',
-                'price'=> 'required|decimal:2',
+                'price' => 'required|decimal:2',
                 'stock' => 'required|numeric',
                 'sub_categories_id' => 'required|exists:categories,id'
             ]);
@@ -154,7 +154,7 @@ class ProductController
                 ->filter(fn($value) => !is_null($value))
                 ->toArray();
 
-                            // ✅ If name is included, also generate slug automatically
+            // ✅ If name is included, also generate slug automatically
             if (isset($data['name'])) {
                 $data['slug'] = Str::of($data['name'])->slug('-');
             }
@@ -181,18 +181,17 @@ class ProductController
     public function destroy(string $id)
     {
         $user = auth('sanctum')->user();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
             ], 403);
         }
 
-        if($user->getTable() == 'users')
-        {
+        if ($user->getTable() == 'users') {
 
             $data = Product::find($id);
-            if(!$data){
+            if (!$data) {
                 return response()->json([
                     'status' => "not-found",
                     'message' => "Category not found"
@@ -200,10 +199,10 @@ class ProductController
             } else {
                 $data->delete();
 
-                return response()->json([],204);
+                return response()->json([], 204);
             }
 
-        } else{
+        } else {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"

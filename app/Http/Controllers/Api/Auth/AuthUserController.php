@@ -17,18 +17,20 @@ class AuthUserController
         ];
 
         if (auth('buyer')->attempt($credential)) {
-            $buyer = Buyer::where('username', $request->username)->first();
-            $token = $buyer->createToken('auth_login')->plainTextToken;
+            if (auth('buyer')->attempt($credential)) {
+                $buyer = Buyer::where('username', $request->username)->first();
+                $token = $buyer->createToken('auth_login')->plainTextToken;
 
-            return response()->json([
-                'status' => 'success',
-                'token' => $token
-            ], 200);
-        } else {
-            return response()->json([
-                "status" => 'invalid',
-                "message" => 'Invalid name or password'
-            ], 401);
+                return response()->json([
+                    'status' => 'success',
+                    'token' => $token
+                ], 200);
+            } else {
+                return response()->json([
+                    "status" => 'invalid',
+                    "message" => 'Invalid name or password'
+                ], 401);
+            }
         }
     }
 
