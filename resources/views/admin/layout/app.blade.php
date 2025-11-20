@@ -9,6 +9,8 @@
 
     @yield('title')
 
+
+
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/favicon.ico') }}">
 
@@ -19,7 +21,7 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
-
+    @stack('style')
     @yield('head')
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
@@ -67,6 +69,7 @@
     <script src="{{ asset('assets/js/theme.min.js') }}"></script>
 
     @yield('scripts')
+    @stack('script')
 </body>
 
 </html>
