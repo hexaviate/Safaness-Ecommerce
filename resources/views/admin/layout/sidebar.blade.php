@@ -34,8 +34,8 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('product.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('product.index') }}">
+                <li class="nav-item {{ request()->routeIs('productAdmin.index') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('productAdmin.index') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
                             <span class="nav-link-text">Product</span>
@@ -98,8 +98,8 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('product.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('product.index') }}">
+                <li class="nav-item {{ request()->routeIs('productAdmin.index') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('productAdmin.index') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
                             <span>Product</span>

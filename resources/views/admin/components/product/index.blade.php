@@ -43,15 +43,15 @@
                                 <td>{{ $item->slug }}</td>
                                 <td>{{ $item->sub_category->name }}</td>
                                 <td>
-                                    <form action="{{ route('product.destroy', $item->id) }}" method="POST">
+                                    <form action="{{ route('productAdmin.destroy', $item->id) }}" method="POST">
                                         @csrf
                                         @method('delete')
                                         <div class="form-button-action">
                                             {{-- Show --}}
-                                            <a href="{{ route('product.show', $item->id) }}"
+                                            <a href="{{ route('productAdmin.show', $item->id) }}"
                                                 class="btn btn-outline-success px-5 radius-30">Detail</a>
                                             {{-- edit --}}
-                                            <a href="{{ route('product.edit', $item->id) }}"
+                                            <a href="{{ route('productAdmin.edit', $item->id) }}"
                                                 class="btn btn-outline-primary px-5 radius-30">Edit</a>
                                             {{-- delete --}}
                                             <button type="submit"

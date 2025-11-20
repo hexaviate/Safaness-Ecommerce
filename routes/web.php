@@ -12,12 +12,12 @@ use Inertia\Inertia;
 
 
 Route::get('/admin', function () {
-    return view('admin.admin');
+    return view('admin.components.dahboard.index');
 })->name('dashboard');
 
 Route::resource('category', WebCategoryController::class);
 Route::resource('subCategory', SubCategoryController::class);
-Route::resource('product', ProductController::class);
+Route::resource('productAdmin', ProductController::class);
 Route::resource('productImage', ProductImageController::class);
 Route::resource('transaction', TransactionController::class);
 
