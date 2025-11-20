@@ -84,11 +84,10 @@ class ProductController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+     public function update(Request $request, string $id)
     {
         $target = Product::find($id);
         $validate = Validator::make($request->all(), [
-            'product_img' => 'required',
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
@@ -100,14 +99,9 @@ class ProductController
             return redirect()->route('productAdmin.edit', $target)->withErrors($validate)->withInput();
         }
 
-        $imageName = time() . '.' . $request->product_img->extension();
-
-        $request->product_img->move(public_path('images'), $imageName);
-
         $target->update([
             "name" => $request->name,
             "slug" => Str::of($request->name)->slug('-'),
-            "product_img" => $imageName,
             "description" => $request->description,
             "price" => $request->price,
             "stock" => $request->stock,
