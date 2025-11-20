@@ -12,22 +12,21 @@ class BuyerController extends Controller
     public function listBuyer()
     {
         $user = auth('sanctum')->user();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
             ], 403);
         }
 
-        if($user->getTable() == 'users')
-        {
+        if ($user->getTable() == 'users') {
             $buyer = Buyer::all();
             $data = BuyerResource::collection($buyer);
             return response()->json([
                 "status" => "success",
                 "data" => $data
             ], 200);
-        } else{
+        } else {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
@@ -38,7 +37,7 @@ class BuyerController extends Controller
     public function updateBuyer(Request $request, $id)
     {
         $user = auth('sanctum')->user();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'status' => 'forbidden',
                 'message' => "You're not an administrator"
@@ -46,12 +45,12 @@ class BuyerController extends Controller
         }
 
         //* if User is an Admin
-        if($user->getTable() == 'users'){
+        if ($user->getTable() == 'users') {
 
             $target = Buyer::where('id', $id)->first();
 
             //*IF The target is null
-            if($target == null){
+            if ($target == null) {
                 return response()->json([
                     'status' => "not-found",
                     'message' => "Buyer not found"
@@ -66,7 +65,7 @@ class BuyerController extends Controller
             ]);
 
             //* if validator error
-            if($validate->fails()){
+            if ($validate->fails()) {
                 return response()->json([
                     'status' => 'invalid',
                     'message' => $validate->errors()
@@ -82,8 +81,10 @@ class BuyerController extends Controller
             ], 201);
 
 
-        } else{
+        } else {
 
         }
     }
+
+    // public function
 }

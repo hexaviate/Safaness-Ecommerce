@@ -15,7 +15,7 @@ class ProductController
      */
     public function index()
     {
-         $data = Product::paginate(10);
+        $data = Product::paginate(10);
         // $data = Product::all();
         return view('admin.components.product.index', compact('data'));
     }
@@ -88,7 +88,6 @@ class ProductController
     {
         $target = Product::find($id);
         $validate = Validator::make($request->all(), [
-            'product_img' => 'required',
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
@@ -100,14 +99,9 @@ class ProductController
             return redirect()->route('product.edit', $target)->withErrors($validate)->withInput();
         }
 
-        $imageName = time() . '.' . $request->product_img->extension();
-
-        $request->product_img->move(public_path('images'), $imageName);
-
         $target->update([
             "name" => $request->name,
             "slug" => Str::of($request->name)->slug('-'),
-            "product_img" => $imageName,
             "description" => $request->description,
             "price" => $request->price,
             "stock" => $request->stock,
