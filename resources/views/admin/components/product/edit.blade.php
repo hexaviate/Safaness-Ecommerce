@@ -7,13 +7,13 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="bx bx-home-alt"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Product Table</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('productAdmin.index') }}">Product Table</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
                 </ol>
             </nav>
         </div>
         <div class="ms-auto">
-            <a href="{{ route('product.index') }}" class="btn btn-light">
+            <a href="{{ route('productAdmin.index') }}" class="btn btn-light">
                 <i class="bx bx-arrow-back"></i> Back to Products
             </a>
         </div>
@@ -28,7 +28,7 @@
             </div>
             <hr>
 
-            <form action="{{ route('product.update', $product->id) }}" method="POST">
+            <form action="{{ route('productAdmin.update', $product->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -105,18 +105,6 @@
                         @enderror
                     </div>
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Terjadi kesalahan:</strong>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-
                     <!-- Description -->
                     <div class="mb-3 col-lg-12">
                         <label for="description" class="form-label">Description</label>
@@ -136,7 +124,7 @@
                     <button type="submit" class="btn btn-primary px-5">
                         <i class="bx bx-save me-1"></i> Update Product
                     </button>
-                    <a href="{{ route('product.index') }}" class="btn btn-secondary ms-2">
+                    <a href="{{ route('productAdmin.index') }}" class="btn btn-secondary ms-2">
                         <i class="bx bx-x-circle me-1"></i> Cancel
                     </a>
                 </div>
