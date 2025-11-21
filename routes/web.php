@@ -5,8 +5,10 @@ use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\WebCategoryController;
+use App\Http\Controllers\Api\AdressController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Web\AuthController;
+use App\Models\Adress;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 

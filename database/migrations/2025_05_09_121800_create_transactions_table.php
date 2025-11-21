@@ -13,8 +13,10 @@ return new class extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('buyer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('adress_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['failed', 'processing', 'success', 'waiting', 'shipped'])->default('waiting');
             $table->string('information')->nullable();
+            $table->string('payment_method')->nullable();
             $table->string('payment_proof')->nullable();
             $table->string('courier')->nullable();
             $table->string('waybill_number')->nullable();

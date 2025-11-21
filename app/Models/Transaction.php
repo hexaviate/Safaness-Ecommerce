@@ -35,4 +35,9 @@ class Transaction extends Model
     {
         return $this->hasMany(Courier::class);
     }
+
+    public function adress()
+    {
+        return $this->belongsTo(Adress::class);
+    }
 }

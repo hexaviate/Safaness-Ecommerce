@@ -44,4 +44,9 @@ class Buyer extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
+    public function adress()
+    {
+        return $this->hasMany(Adress::class);
+    }
+
 }

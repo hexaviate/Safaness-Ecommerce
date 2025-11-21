@@ -113,6 +113,8 @@ class TransactionController
 
             $data = $validate->validated();
             $data['subtotal'] = $total;
+            $data['payment_method'] = $request->payment_method;
+            $data['adress_id'] = $request->adress_id;
             $data['courier'] = $request->courier;
             $data['status'] = "waiting";
             $data['shipping_cost'] = $ongkir;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\AdressController;
 use App\Http\Controllers\Api\Auth\AuthAdminController;
 use App\Http\Controllers\Api\Auth\AuthUserController;
 use App\Http\Controllers\Api\BuyerController;
@@ -38,6 +39,13 @@ Route::post('/admin/category', [CategoryController::class, 'createCategory']);
 Route::get('/admin/category', [CategoryController::class, 'listCategory']);
 Route::put('/admin/category/{id}', [CategoryController::class, 'updateCategory']);
 Route::delete('/admin/category/{id}', [CategoryController::class, 'deleteCategory']);
+
+//Address
+Route::resource('adress', AdressController::class);
+
+//untuk pembayaran
+Route::get('/showBuyer', [BuyerController::class, 'showBuyer']);
+Route::post('/showAdress', [AdressController::class, 'showAdress']);
 
 //Sub Category and Product
 Route::prefix('admin')->group(function () {
