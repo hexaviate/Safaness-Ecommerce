@@ -20,6 +20,8 @@ class TransactionResource extends JsonResource
             "buyerId" => $this->buyer_id,
             "status" => $this->status,
             "information" => $this->information,
+            "payment_method" => $this->payment_method,
+            "waybill_number" => $this->waybill_number,
             "subtotal" => $this->subtotal,
             "ongkir" => $this->shipping_cost,
             "biaya_layanan" => 1000,

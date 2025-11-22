@@ -52,6 +52,7 @@ class AdressController
         }
 
         $validate = Validator::make($request->all(), [
+            "adress_name" => "required",
             "adress" => "required",
             "zipcode" => "required"
         ]);
@@ -65,6 +66,7 @@ class AdressController
 
         $adress = Adress::create([
             "buyer_id" => $user->id,
+            "adress_name" => $request->adress_name,
             "adress" => $request->adress,
             "zipcode" => $request->zipcode
         ]);

@@ -13,7 +13,7 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <a class="btn btn-primary" href="{{ route('product.create') }}">Tambah Data</a>
+                <a class="btn btn-primary" href="{{ route('productAdmin.create') }}">Tambah Data</a>
             </div>
         </div>
     </div>

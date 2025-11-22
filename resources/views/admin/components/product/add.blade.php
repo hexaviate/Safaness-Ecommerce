@@ -13,7 +13,7 @@
             </nav>
         </div>
         <div class="ms-auto">
-            <a href="{{ route('product.index') }}" class="btn btn-light">
+            <a href="{{ route('productAdmin.index') }}" class="btn btn-light">
                 <i class="bx bx-arrow-back"></i> Back to Products
             </a>
         </div>
@@ -28,7 +28,7 @@
             </div>
             <hr>
 
-            <form action="{{ route('product.store') }}" method="POST">
+            <form action="{{ route('productAdmin.store') }}" method="POST">
                 @csrf
 
                 <div class="row">

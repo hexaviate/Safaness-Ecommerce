@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\TransactionResource;
+use App\Models\Adress;
 use App\Models\Cart;
 use App\Models\Courier;
 use App\Models\Transaction;
@@ -83,22 +85,24 @@ class TransactionController
 
             // dd($response);
 
+            $defaultAdress = Adress::where('buyer_id', '$user->id')->first();
+
             $client = new Client();
-            $res = $client->request('POST', 'https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
-                'headers' => [
-                    "key" => '8b46a5daf002a832393957ef35b2cfdc'
-                ],
-                'query' => [
-                    'origin' => '59154',
-                    'destination' => $zipcode,
-                    'weight' => $total_weight,
-                    'courier' => $request->courier
-                ],
-            ]);
+            // $res = $client->request('POST', 'https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
+            //     'headers' => [
+            //         "key" => '8b46a5daf002a832393957ef35b2cfdc'
+            //     ],
+            //     'query' => [
+            //         'origin' => '59154',
+            //         'destination' => $request->zipcode ?? $defaultAdress->zipcode,
+            //         'weight' => $total_weight,
+            //         'courier' => $request->courier
+            //     ],
+            // ]);
 
 
-            $result = json_decode($res->getbody(), true);
-            $ongkir = $result['data']['0']['cost'];
+            // $result = json_decode($res->getbody(), true);
+            $ongkir = $result['data']['0']['cost'] ?? 18000;
             $total = $cart->sum('price_total');
 
             // dd($res->getBody()->getContents()->data[0]->cost);
@@ -124,11 +128,11 @@ class TransactionController
 
             $courier = [
                 "transaction_id" => $transaction->id,
-                "name" => $result['data']['0']['name'],
-                "service" => $result['data']['0']['service'],
-                "description" => $result['data']['0']['description'],
-                "cost" => $result['data']['0']['cost'],
-                "etd" => $result['data']['0']['etd'],
+                "name" => $result['data']['0']['name'] ?? "jne",
+                "service" => $result['data']['0']['service'] ?? "ez",
+                "description" => $result['data']['0']['description'] ?? "JNE Express",
+                "cost" => $result['data']['0']['cost'] ?? "18000",
+                "etd" => $result['data']['0']['etd'] ?? "4 days",
             ];
 
             $createCourier = Courier::create($courier);
@@ -155,7 +159,7 @@ class TransactionController
             return response()->json([
                 'status' => 'success',
                 'message' => 'data created',
-                'transaction' => $transaction
+                'transaction' => new TransactionResource($transaction)
             ], 201);
 
         } else {
@@ -277,28 +281,33 @@ class TransactionController
         }
 
         $transaction = Transaction::find($id);
+        if (!$transaction->payment_proof) {
+            //img interevention
+            $manager = ImageManager::withDriver(new Driver());
+            $imageName = time() . '.' . $request->proof->extension();
 
-        if ($transaction->proof != null) {
+            //read image
+            $image = $manager->read($request->file('proof'));
+            $image->encode(new AutoEncoder(quality: 50))->save(public_path('images/proof/' . $imageName));
+
+            $transaction->update([
+                "payment_proof" => $imageName
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "berhasil upload bukti pembayaran"
+            ], 200);
+        }
+
+
+
+        if ($transaction->payment_proof != null) {
             return response()->json([
                 "status" => "failed",
                 "message" => "anda sudah mengupload bukti pembayaran"
             ], 400);
         }
-        //img interevention
-        $manager = ImageManager::withDriver(new Driver());
-        $imageName = time() . '.' . $request->proof->extension();
 
-        //read image
-        $image = $manager->read($request->file('proof'));
-        $image->encode(new AutoEncoder(quality: 50))->save(public_path('images/proof/' . $imageName));
-
-        $transaction->update([
-            "payment_proof" => $imageName
-        ]);
-
-        return response()->json([
-            "status" => "success",
-            "message" => "berhasil upload bukti pembayaran"
-        ], 200);
     }
 }

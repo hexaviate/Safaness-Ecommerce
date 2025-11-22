@@ -92,15 +92,18 @@ class TransactionController
         $transaction = Transaction::find($id)->first();
         // dd($transaction);
 
-        if ($transaction->status == "processing" || $transaction->status == "shipping" || $transaction->status == "success" || $transaction->status == "failed") {
+        if ($transaction->status == "waiting") {
+            $transaction->update([
+                "status" => "processing"
+            ]);
+            return redirect()->route('transaction.index')->with('success', 'berhasil validasi pembayaran');
+
+        } else {
+
             return redirect()->back()->with('error', 'tidak bisa memvalidasi pembayaran');
         }
 
 
-        $transaction->update([
-            "status" => "processing"
-        ]);
 
-        return redirect()->route('transaction.index')->with('success', 'berhasil validasi pembayaran');
     }
 }

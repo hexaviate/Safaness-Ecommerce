@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\TransactionResource;
+use App\Models\Adress;
 use App\Models\Cart;
 use App\Models\Transaction;
 use GuzzleHttp\Client;
@@ -63,6 +64,9 @@ class PageCartContorller
         $cart = Cart::where('buyer_id', $user->id)->where('status', 1)->where('checkout', 'belum')->get();
         $total_weight = $cart->sum('product_weight');
         // dd($cart);
+
+        $defaultAdress = Adress::where('buyer_id', $user->id)->first();
+
         $client = new Client();
         $res = $client->request('POST', 'https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
             'headers' => [
@@ -70,7 +74,7 @@ class PageCartContorller
             ],
             'query' => [
                 'origin' => '59154',
-                'destination' => $zipcode,
+                'destination' => $request->zipcode ?? $defaultAdress->zipcode,
                 'weight' => $total_weight,
                 'courier' => $request->courier ?? 'jnt'
             ],
