@@ -79,7 +79,9 @@ class TransactionController
      */
     public function destroy(string $id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+        $transaction->delete();
+        return redirect()->route('transaction.index');
     }
 
     public function validatePayment(string $id)
@@ -89,7 +91,7 @@ class TransactionController
         //     return redirect()->back()->with('error', 'anda harus login');
         // }
 
-        $transaction = Transaction::find($id)->first();
+        $transaction = Transaction::where('id', $id)->first();
         // dd($transaction);
 
         if ($transaction->status == "waiting") {
