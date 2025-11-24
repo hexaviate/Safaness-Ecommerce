@@ -45,45 +45,46 @@ class BuyerController extends Controller
         }
 
         //* if User is an Admin
-        if ($user->getTable() == 'users') {
+        // if ($user->getTable() == 'users') {
 
-            $target = Buyer::where('id', $id)->first();
+        $target = Buyer::where('id', $user->id)->first();
 
-            //*IF The target is null
-            if ($target == null) {
-                return response()->json([
-                    'status' => "not-found",
-                    'message' => "Buyer not found"
-                ], 404);
-            }
-
-            $validate = Validator::make($request->all(), [
-                'name' => 'sometimes|unique:buyers|max:40',
-                'password' => 'sometimes|min:5',
-                'phone' => 'sometimes|integer',
-                'address' => 'sometimes'
-            ]);
-
-            //* if validator error
-            if ($validate->fails()) {
-                return response()->json([
-                    'status' => 'invalid',
-                    'message' => $validate->errors()
-                ], 400);
-            }
-
-            $target->update($request->all());
-
+        //*IF The target is null
+        if ($target == null) {
             return response()->json([
-                'status' => 'success',
-                'message' => 'data updated',
-                'data' => $target
-            ], 201);
-
-
-        } else {
-
+                'status' => "not-found",
+                'message' => "Buyer not found"
+            ], 404);
         }
+
+        $validate = Validator::make($request->all(), [
+            'name' => 'sometimes|max:40',
+            'username' => 'sometimes|unique:buyers|max:40',
+            'password' => 'sometimes|min:5',
+            'email' => 'sometimes',
+            'phone' => 'sometimes|integer',
+        ]);
+
+        //* if validator error
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => 'invalid',
+                'message' => $validate->errors()
+            ], 400);
+        }
+
+        $target->update($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data updated',
+            'data' => $target
+        ], 201);
+
+
+        // } else {
+
+        // }
     }
 
     public function showBuyer()

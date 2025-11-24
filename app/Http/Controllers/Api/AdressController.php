@@ -99,7 +99,40 @@ class AdressController
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = auth('sanctum')->user();
+        if (!$user) {
+            return response()->json([
+                'status' => 'unauthenticated',
+                'message' => "You must be logged in"
+            ], 403);
+        }
+
+        $adress = Adress::find($id);
+        $validate = Validator::make($request->all(), [
+            "adress_name" => "sometimes",
+            "adress" => "sometimes",
+            "zipcode" => "sometimes"
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => 'invalid',
+                'message' => $validate->errors()
+            ], 400);
+        }
+
+        $adress->update([
+            "buyer_id" => $user->id,
+            "adress_name" => $request->adress_name,
+            "adress" => $request->adress,
+            "zipcode" => $request->zipcode
+        ]);
+
+        return response()->json([
+            "status" => "success",
+            // "data" => AdressResource::collection($adress)
+            "data" => new AdressResource($adress)
+        ]);
     }
 
     /**
@@ -107,7 +140,30 @@ class AdressController
      */
     public function destroy(string $id)
     {
-        //
+
+        $user = auth('sanctum')->user();
+        if ($user == null) {
+            return response()->json([
+                'status' => 'forbidden',
+                'message' => "You're not an administrator"
+            ], 403);
+        }
+
+        if ($user->getTable() == 'users') {
+
+            $data = Adress::find($id);
+            if (!$data) {
+                return response()->json([
+                    'status' => "not-found",
+                    'message' => "Category not found"
+                ], 404);
+            } else {
+                $data->delete();
+
+                return response()->json([], 204);
+            }
+
+        }
     }
 
     public function showAdress(Request $request)

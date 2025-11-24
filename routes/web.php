@@ -24,6 +24,7 @@ Route::resource('productImage', ProductImageController::class);
 Route::resource('transaction', TransactionController::class);
 
 Route::post('validatePayment/{id}', [TransactionController::class, 'validatePayment'])->name('validatePayment');
+Route::post('submitWaybill/{id}', [TransactionController::class, 'submitWaybill'])->name('submitWaybill');
 
 Route::get('login', function () {
     return view('user.auth.login');

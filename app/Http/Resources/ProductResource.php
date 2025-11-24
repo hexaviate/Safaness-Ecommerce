@@ -16,15 +16,16 @@ class ProductResource extends JsonResource
     {
         // dd($this->subCategory);
         return
-        [
-            "id" => $this->id,
-            "name" => $this->name,
-            "slug" => $this->slug,
-            "description" => $this->description,
-            "price" => $this->price,
-            "stock" => $this->stock,
-            "sub_category" => $this->sub_category->name,
-            "image" => ProductImageResource::collection($this->product_image)
-        ];
+            [
+                "id" => $this->id,
+                "name" => $this->name,
+                "slug" => $this->slug,
+                "description" => $this->description,
+                "price" => $this->price,
+                "stock" => $this->stock,
+                "sub_category" => $this->sub_category->name,
+                "category" => $this->sub_category->category->name,
+                "image" => ProductImageResource::collection($this->product_image)
+            ];
     }
 }

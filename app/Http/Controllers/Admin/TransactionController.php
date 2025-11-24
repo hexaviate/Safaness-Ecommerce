@@ -108,4 +108,19 @@ class TransactionController
 
 
     }
+
+    public function submitWaybill(string $id, Request $request)
+    {
+        $transaction = Transaction::where('id', $id)->first();
+
+        if ($transaction->status == "processing") {
+            $transaction->update([
+                "waybill_number" => $request->waybill_number,
+                "status" => "shipped"
+            ]);
+        }
+
+        return redirect()->route('transaction.index')->with('success', 'berhasil memasukkan nomor resi');
+
+    }
 }

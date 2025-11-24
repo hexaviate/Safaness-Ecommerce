@@ -85,23 +85,24 @@ class TransactionController
 
             // dd($response);
 
-            $defaultAdress = Adress::where('buyer_id', '$user->id')->first();
+            $defaultAdress = Adress::where('buyer_id', $user->id)->first();
+            $zipcode = Adress::where('id', $request->adress_id)->first()->zipcode;
 
             $client = new Client();
-            // $res = $client->request('POST', 'https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
-            //     'headers' => [
-            //         "key" => '8b46a5daf002a832393957ef35b2cfdc'
-            //     ],
-            //     'query' => [
-            //         'origin' => '59154',
-            //         'destination' => $request->zipcode ?? $defaultAdress->zipcode,
-            //         'weight' => $total_weight,
-            //         'courier' => $request->courier
-            //     ],
-            // ]);
+            $res = $client->request('POST', 'https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
+                'headers' => [
+                    "key" => '8b46a5daf002a832393957ef35b2cfdc'
+                ],
+                'query' => [
+                    'origin' => '59154',
+                    'destination' => $zipcode ?? $defaultAdress->zipcode,
+                    'weight' => $total_weight,
+                    'courier' => $request->courier
+                ],
+            ]);
 
 
-            // $result = json_decode($res->getbody(), true);
+            $result = json_decode($res->getbody(), true);
             $ongkir = $result['data']['0']['cost'] ?? 18000;
             $total = $cart->sum('price_total');
 
@@ -309,5 +310,10 @@ class TransactionController
             ], 400);
         }
 
+
+
     }
+
+
+
 }

@@ -82,6 +82,17 @@
                                         </button>
                                     </form>
                                 </div>
+                                <div class="col-md-6 mb-3 d-flex flex-column justify-content-center align-items-md-end">
+                                    <form action="{{ route('submitWaybill', $item->id) }}" method="POST"
+                                        class="d-inline-block">
+                                        @csrf
+                                        <input type="text" name="waybill_number">
+                                        <!-- Tombol dengan ikon (memerlukan Font Awesome atau Bootstrap Icons) -->
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-check-circle me-2"></i>Submit Waybill
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
 
                             <!-- Pemisah antar transaksi jika ada lebih dari satu -->

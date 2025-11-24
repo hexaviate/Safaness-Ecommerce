@@ -57,6 +57,7 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::get('/search-destination', [RajaOngkirController::class, 'searchDestination'])->name('search-destination');
+Route::get('/checkWaybill/{id}', [RajaOngkirController::class, 'checkWaybill'])->name('checkWaybill');
 Route::get('/infoCart', [PageCartContorller::class, 'infoCart'])->name('infoCart');
 Route::post('/infoCart2', [PageCartContorller::class, 'infoCart2'])->name('infoCart2');
 Route::get('/transactionInfo', [PageCartContorller::class, 'transactionInfo'])->name('transactionInfo');
