@@ -54,31 +54,15 @@ class CategoryController extends Controller
     public function listCategory(Request $request)
     {
         $user = auth('sanctum')->user();
-        if ($user == null) {
-            return response()->json([
-                'status' => 'forbidden',
-                'message' => "You're not an administrator"
-            ], 403);
-        }
 
-        if ($user->getTable() == 'users') {
-            $category = Category::select('id', 'name', 'slug')->get();
+        $category = Category::select('id', 'name', 'slug')->get();
 
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    "status" => "success",
-                    "data" => $category
-                ], 200);
-            }
+        return response()->json([
+            "status" => "success",
+            "data" => $category
+        ], 200);
 
-            return view('admin.components.category', compact('category'));
-        } else {
-            return response()->json([
-                'status' => 'forbidden',
-                'message' => "You're not an administrator"
-            ], 403);
-        }
     }
 
     public function updateCategory(Request $request, $id)
