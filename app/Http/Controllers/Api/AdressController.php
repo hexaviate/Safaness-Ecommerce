@@ -164,29 +164,27 @@ class AdressController
             ], 403);
         }
 
-        if ($user->getTable() == 'users') {
 
-            $data = Adress::find($id);
-            if ($data->buyer_id != $user->id) {
-                return response()->json([
-                    'status' => 'forbidden',
-                    'message' => "you cant edit this"
-                ], 401);
-            }
-
-
-            if (!$data) {
-                return response()->json([
-                    'status' => "not-found",
-                    'message' => "Category not found"
-                ], 404);
-            } else {
-                $data->delete();
-
-                return response()->json([], 204);
-            }
-
+        $data = Adress::find($id);
+        if ($data->buyer_id != $user->id) {
+            return response()->json([
+                'status' => 'forbidden',
+                'message' => "you cant edit this"
+            ], 401);
         }
+
+
+        if (!$data) {
+            return response()->json([
+                'status' => "not-found",
+                'message' => "Category not found"
+            ], 404);
+        } else {
+            $data->delete();
+
+            return response()->json([], 204);
+        }
+
     }
 
     public function showAdress(Request $request)
