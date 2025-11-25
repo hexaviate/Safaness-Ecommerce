@@ -108,6 +108,22 @@ class AdressController
         }
 
         $adress = Adress::find($id);
+        if (!$adress) {
+            return response()->json([
+                'status' => "not-found",
+                'message' => "Category not found"
+            ], 404);
+        }
+
+
+        if ($adress->buyer_id != $user->id) {
+            return response()->json([
+                'status' => 'forbidden',
+                'message' => "you cant edit this"
+            ], 401);
+        }
+
+
         $validate = Validator::make($request->all(), [
             "adress_name" => "sometimes",
             "adress" => "sometimes",
@@ -122,7 +138,6 @@ class AdressController
         }
 
         $adress->update([
-            "buyer_id" => $user->id,
             "adress_name" => $request->adress_name,
             "adress" => $request->adress,
             "zipcode" => $request->zipcode
@@ -152,6 +167,14 @@ class AdressController
         if ($user->getTable() == 'users') {
 
             $data = Adress::find($id);
+            if ($data->buyer_id != $user->id) {
+                return response()->json([
+                    'status' => 'forbidden',
+                    'message' => "you cant edit this"
+                ], 401);
+            }
+
+
             if (!$data) {
                 return response()->json([
                     'status' => "not-found",
