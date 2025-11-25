@@ -45,7 +45,7 @@ Route::resource('adress', AdressController::class);
 
 //untuk pembayaran
 Route::get('/showBuyer', [BuyerController::class, 'showBuyer']);
-Route::post('/showAdress', [AdressController::class, 'showAdress']);
+Route::post('/showAdress/{id}', [AdressController::class, 'showAdress']);
 
 //Sub Category and Product
 Route::prefix('admin')->group(function () {
