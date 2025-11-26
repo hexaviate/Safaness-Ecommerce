@@ -309,9 +309,36 @@ class TransactionController
                 "message" => "anda sudah mengupload bukti pembayaran"
             ], 400);
         }
+    }
 
+    public function completeTransaction(string $id)
+    {
+        $user = auth('sanctum')->user();
+        if (!$user) {
+            return response()->json([
+                'status' => 'unauthenticated',
+                'message' => "You must be logged in"
+            ], 401);
+        }
 
+        if ($user->getTable() != "buyers") {
+            return response()->json([
+                'status' => 'unauthenticated',
+                'message' => "You must be buyer"
+            ], 401);
+        }
 
+        $transaction = Transaction::find($id);
+
+        $transaction->update([
+            "status" => "success",
+            "information" => "Pesanan sukses"
+        ]);
+
+        return response()->json([
+            "status" => "success",
+            "message" => "Pesanan diselesaikan"
+        ]);
     }
 
 

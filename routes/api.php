@@ -65,3 +65,4 @@ Route::get('/detailTransactionInfo/{id}', [PageCartContorller::class, 'detailTra
 Route::get('/accountDetail', [AccountController::class, 'accountDetail'])->name('accountDetail');
 
 Route::post('/uploadPayment/{id}', [TransactionController::class, 'submitProof'])->name('uploadPayment');
+Route::post('/completeTransaction/{id}', [TransactionController::class, 'completeTransaction'])->name('completeTransaction');
