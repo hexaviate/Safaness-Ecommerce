@@ -31,8 +31,10 @@
                             <select class="form-select">
                                 <option selected>All Status</option>
                                 <option value="success">Success</option>
-                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
                                 <option value="failed">Failed</option>
+                                <option value="waiting">Waiting</option>
+                                <option value="shipped">Shipped</option>
                             </select>
                         </div>
                     </div>
@@ -67,7 +69,8 @@
                                                 <span class="badge bg-danger">Failed</span>
                                             @elseif ($item->status == 'processing')
                                                 <span class="badge bg-warning">Processed</span>
-                                            @elseif ($item->status == 'shipping')
+                                            @elseif ($item->status == 'shipped')
+                                                {{-- ganti dari shipping --}}
                                                 <span class="badge bg-info">On Delivery</span>
                                             @endif
                                         </td>

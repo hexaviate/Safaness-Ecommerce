@@ -46,10 +46,20 @@
                                             <td>{{ $item->buyer->username }}</td>
                                             <td>
                                                 <!-- Menggunakan badge untuk status dengan warna dinamis -->
-                                                <span
-                                                    class="badge bg-{{ $item->status == 'validated' ? 'success' : 'warning' }} text-dark">
+                                                @php
+                                                    $statusColors = [
+                                                        'waiting' => 'light text-dark',
+                                                        'processing' => 'warning text-dark',
+                                                        'success' => 'success',
+                                                        'failed' => 'danger',
+                                                        'shipped' => 'info text-dark',
+                                                    ];
+                                                @endphp
+
+                                                <span class="badge bg-{{ $statusColors[$item->status] ?? 'secondary' }}">
                                                     {{ ucfirst($item->status) }}
                                                 </span>
+
                                             </td>
                                             <td>{{ $item->information }}</td>
                                             <td class="text-end">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
